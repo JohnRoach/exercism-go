@@ -16,11 +16,18 @@ type Clock struct {
 
 // New returns a newClock
 func New(hour int, minute int) Clock {
-	var hours, minutes int
-	var c Clock
-	hours, minutes = ConvertMinutes(minute)
-	c.hour = ConvertHours(hour + hours)
-	c.minute = minutes
+	return Clock{}.Add((hour * 60) + minute)
+}
+
+// Add returns a clock with added minutes
+func (c Clock) Add(minutes int) Clock {
+	var addHour, addMinute int
+
+	addHour, addMinute = ConvertMinutes(minutes + c.minute)
+
+	c.hour = ConvertHours(c.hour + addHour)
+	c.minute = addMinute
+
 	return c
 }
 
@@ -45,16 +52,4 @@ func ConvertMinutes(minutes int) (hours, minute int) {
 	bigHours, bigMinutes = new(big.Int).DivMod(big.NewInt(int64(minutes)),
 		big.NewInt(60), big.NewInt(60))
 	return int(bigHours.Int64()), int(bigMinutes.Int64())
-}
-
-// Add returns a clock with added minutes
-func (c Clock) Add(minutes int) Clock {
-	var addHour, addMinute int
-
-	addHour, addMinute = ConvertMinutes(minutes + c.minute)
-
-	c.hour = ConvertHours(c.hour + addHour)
-	c.minute = addMinute
-
-	return c
 }
