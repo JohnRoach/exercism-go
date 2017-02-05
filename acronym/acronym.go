@@ -12,7 +12,7 @@ const testVersion = 2
 func Abbreviate(abbreviateMe string) string {
 	var buffer bytes.Buffer
 
-	re := regexp.MustCompile("\\b[A-Z]{1}|\\b\\w|[A-Z]([a-z])")
+	re := regexp.MustCompile(`\b[A-Z]{1}|\b\w|[A-Z]([a-z])`)
 	splitme := re.FindAllString(abbreviateMe, -1)
 
 	for index := range splitme {
